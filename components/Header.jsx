@@ -1,12 +1,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from './Header.module.scss';
-console.log(styles);
 
 function Header() {
 	const router = useRouter();
 	const currentPath = router.pathname;
-	console.log(currentPath);
 
 	return (
 		<header id={styles.header}>
@@ -17,6 +15,11 @@ function Header() {
 			</h1>
 
 			<ul id={styles.gnb}>
+				<li>
+					<Link href='/csr' className={currentPath === '/csr' ? styles.on : ''}>
+						CSR
+					</Link>
+				</li>
 				<li>
 					<Link href='/ssg' className={currentPath === '/ssg' ? styles.on : ''}>
 						SSG
