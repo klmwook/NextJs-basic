@@ -6,7 +6,7 @@ const counterSchema = new mongoose.Schema(
 		name: String,
 		communityNum: Number,
 	},
-	{ collation: 'Counter' }
+	{ collection: 'Counter' }
 );
 
 //스키마를 적용한 모델 생성 함수를 내보냄
