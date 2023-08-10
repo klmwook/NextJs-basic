@@ -29,11 +29,12 @@ export default function Home() {
 			body: 'abc',
 		})
 			.then((res) => res.json())
-			.then((json) => console.log(json.members));
+			.then((json) => console.log(json));
 
+		//method가 없으면 GET 방식으로 default
 		fetch('api/hello')
 			.then((res) => res.json())
-			.then((json) => console.log(json));
+			.then((json) => console.log(json.data));
 	}, []);
 
 	return (
@@ -56,7 +57,7 @@ export default function Home() {
 				<FaAffiliatetheme className='fontA' size='50' color='red' />
 				<FcAndroidOs size='80' />
 
-				<div className={styles.pic}>
+				{/* <div className={styles.pic}>
 					<Image src={pic} alt='pic' fill quality={50} placeholder='blur' />
 				</div>
 				<div className={styles.pic}>
@@ -66,7 +67,7 @@ export default function Home() {
 						fill
 						quality={50}
 					/>
-				</div>
+				</div> */}
 			</main>
 		</>
 	);
