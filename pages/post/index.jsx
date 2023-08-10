@@ -1,12 +1,16 @@
 import SubLayout from '@/components/SubLayout';
-import React from 'react';
+import axios from 'axios';
+import { useEffect } from 'react';
 
-function post() {
+function Post() {
+	useEffect(() => {
+		axios.get('/api/post').then((res) => console.log(res));
+	}, []);
 	return (
 		<SubLayout>
-			<p>포스트 페이지 인트로 화면 입니다.</p>
+			<p>포스트페이지 인트로화면입니다.</p>
 		</SubLayout>
 	);
 }
 
-export default post;
+export default Post;
