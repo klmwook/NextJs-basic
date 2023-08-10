@@ -3,40 +3,10 @@ import styles from '@/styles/Home.module.scss';
 import Header from '@/components/Header';
 import Image from 'next/image';
 import pic from '@/public/img/pic.jpg';
-import { useEffect } from 'react';
 import { FaAffiliatetheme } from 'react-icons/fa';
-import { IconContext } from 'react-icons';
 import { FcAndroidOs } from 'react-icons/fc';
 
-/*
-	api 라우팅 (서버요청 처리를 위해서는 express라는 프레임웍을 활용)
-	next에서는 api 폴더 안쪽에 서버 쪽 요청 및 응답에 대한 라우팅 설정 가능
-	api 폴더 안쪽의 파일명이 라우터 요청명으로 자동설정됨 /api/hello
-*/
-
 export default function Home() {
-	/*
-		서버쪽에서 프리렌더된 페이지를 가지고 온 이후에
-		클라이언트쪽에서 다시 서버쪽 요청가능
-		next자체적으로 서버쪽 요청,응답처리
-	*/
-	useEffect(() => {
-		//api폴더 안쪽의 hello.js에 서버 요청 처리
-		//fetch 함수의 두번째 인수로 옵션값을 설정하지 않으면 GET방식으로 전송 요청
-		//{method : 전송방식 , body : 전달값(문자값)}
-		fetch('api/hello', {
-			method: 'POST',
-			body: 'abc',
-		})
-			.then((res) => res.json())
-			.then((json) => console.log(json));
-
-		//method가 없으면 GET 방식으로 default
-		fetch('api/hello')
-			.then((res) => res.json())
-			.then((json) => console.log(json.data));
-	}, []);
-
 	return (
 		<>
 			<Head>
