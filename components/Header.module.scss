@@ -9,11 +9,13 @@
 
 	h1 {
 		a {
-			font: bold 24px/1 'arial';
+			font-weight: 500;
+			//다음과 같은 형식으로 font-family 지정 가능 var(--font--폰트객체명)
+			font-family: var(--font-orbitron);
 			color: #fff;
 
 			&.on {
-				color: red;
+				color: hotpink;
 			}
 		}
 	}
