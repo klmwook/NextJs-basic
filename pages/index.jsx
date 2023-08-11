@@ -3,25 +3,29 @@ import styles from '@/styles/Home.module.scss';
 import Header from '@/components/Header';
 import Image from 'next/image';
 import pic from '@/public/img/pic.jpg';
+import { useEffect } from 'react';
 import { FaApple } from 'react-icons/fa6';
 //npm i react-icons 설치후
 //https://react-icons.github.io/react-icons에서 활용할 아이콘 컴포넌트 import문과 아이콘명 확인
 import { IconContext } from 'react-icons';
 import { FcAbout } from 'react-icons/fc';
 import { useGlobalData } from '@/hooks/useGlobalContext';
-import { useEffect } from 'react';
-import firebase from '@/pages/firebase';
+import firebase from '@/firebase';
+
+//api 라우팅 (서버요청 처리를 위해서는 express라는 프레임웍을 활용)
+//next에서는 api폴더 안쪽에 서버쪽 요청 및 응답에대한 라우팅 설정가능
+//api폴더 안쪽의 파일명이 라우터 요청명으로 자동설정됨 /api/hello
 
 export default function Home() {
 	const { setLoginInfo } = useGlobalData();
 
 	useEffect(() => {
-		//시작 페이지 접속 시 firebase로 현재 로그인 상태 값이 변경되면
+		//시작 페이지 접속시 firebase로 현재 로그인 상태값이 변경되면
 		firebase.auth().onAuthStateChanged((userInfo) => {
 			console.log(userInfo);
-			//해당 값이 비어있을 때 (비로그인 상태) 전역 스테이트의 값을 비움
+			//해당 값이 비어있을때 (비로그인시) 전역 스테이트의 값을 비움
 			if (userInfo === null) setLoginInfo({ displayName: '', uid: '' });
-			//값이 있으면 (로그인 상태) firebase로 받은 유저정보값을 전역 스테이트에 덮어쓰기
+			//값이 있으면 (로그인) firebase로 받은 유저정보값을 전역 스테이트에 덮어쓰기
 			else setLoginInfo(userInfo.multiFactor.user);
 		});
 	}, [setLoginInfo]);
@@ -37,6 +41,15 @@ export default function Home() {
 			<main className={styles.main}>
 				<Header />
 				<h1>Main</h1>
+				<button
+					onClick={() => {
+						firebase.auth().signOut();
+						alert('로그아웃 되었습니다.');
+					}}
+				>
+					{' '}
+					로그아웃
+				</button>
 
 				{/* IconContext.Provider컴포넌트 임포트후 웹폰트 아이콘 활용한 부모요소에 wrapping해주면 해당 컴포넌트 안쪽에서는 context api를 이용해서 동일한 스타일을 전역으로 활용 가능 */}
 				{/* <IconContext.Provider value={{ color: 'blue', className: 'global-class-name' }}> */}
