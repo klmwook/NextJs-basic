@@ -3,10 +3,29 @@ import styles from '@/styles/Home.module.scss';
 import Header from '@/components/Header';
 import Image from 'next/image';
 import pic from '@/public/img/pic.jpg';
-import { FaAffiliatetheme } from 'react-icons/fa';
-import { FcAndroidOs } from 'react-icons/fc';
+import { FaApple } from 'react-icons/fa6';
+//npm i react-icons 설치후
+//https://react-icons.github.io/react-icons에서 활용할 아이콘 컴포넌트 import문과 아이콘명 확인
+import { IconContext } from 'react-icons';
+import { FcAbout } from 'react-icons/fc';
+import { useGlobalData } from '@/hooks/useGlobalContext';
+import { useEffect } from 'react';
+import firebase from '@/pages/firebase';
 
 export default function Home() {
+	const { setLoginInfo } = useGlobalData();
+
+	useEffect(() => {
+		//시작 페이지 접속 시 firebase로 현재 로그인 상태 값이 변경되면
+		firebase.auth().onAuthStateChanged((userInfo) => {
+			console.log(userInfo);
+			//해당 값이 비어있을 때 (비로그인 상태) 전역 스테이트의 값을 비움
+			if (userInfo === null) setLoginInfo({ displayName: '', uid: '' });
+			//값이 있으면 (로그인 상태) firebase로 받은 유저정보값을 전역 스테이트에 덮어쓰기
+			else setLoginInfo(userInfo.multiFactor.user);
+		});
+	}, [setLoginInfo]);
+
 	return (
 		<>
 			<Head>
@@ -18,26 +37,24 @@ export default function Home() {
 			<main className={styles.main}>
 				<Header />
 				<h1>Main</h1>
-				{/* IconContext.Provider 컴포넌트 임포트 후 웹 폰트 아이콘 활용한 부모요소에 wrapping 해주면 해당 컴포넌트 안쪽에서는 context api를 이용해서 동일한 스타일을 전역으로 활용 가능  */}
-				{/* <IconContext.Provider value={{ color: 'blue', className: 'global-class-name' }}>
-					<FaAffiliatetheme />
-				</IconContext.Provider> */}
 
-				{/* 직접적으로 웹폰트 아이콘에 커스텀 클래스명 , 사이즈 , 컬러값 지정 가능 */}
-				<FaAffiliatetheme className='fontA' size='50' color='red' />
-				<FcAndroidOs size='80' />
-
-				{/* <div className={styles.pic}>
-					<Image src={pic} alt='pic' fill quality={50} placeholder='blur' />
+				{/* IconContext.Provider컴포넌트 임포트후 웹폰트 아이콘 활용한 부모요소에 wrapping해주면 해당 컴포넌트 안쪽에서는 context api를 이용해서 동일한 스타일을 전역으로 활용 가능 */}
+				{/* <IconContext.Provider value={{ color: 'blue', className: 'global-class-name' }}> */}
+				{/* 직접적으로 웹폰트아이콘에 커스텀 클래스명, 사이즈, 컬러값 지정가능 */}
+				<FaApple className='fontA' size='30' color='red' />
+				<FcAbout size='80' />
+				{/* </IconContext.Provider> */}
+				<div className={styles.pic}>
+					<Image src={pic} alt='pic' fill quality={50} />
 				</div>
 				<div className={styles.pic}>
 					<Image
-						src='https://images.unsplash.com/photo-1690896855003-8c9dbbf87106?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80'
+						src='https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'
 						alt='pic'
 						fill
 						quality={50}
 					/>
-				</div> */}
+				</div>
 			</main>
 		</>
 	);

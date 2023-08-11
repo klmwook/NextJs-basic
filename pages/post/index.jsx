@@ -1,8 +1,11 @@
 import SubLayout from '@/components/SubLayout';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useGlobalData } from '@/hooks/useGlobalContext';
 
 function Post() {
+	const { LoginInfo } = useGlobalData();
+	console.log(LoginInfo);
 	const [Tit, setTit] = useState('');
 	const [Con, setCon] = useState('');
 
@@ -32,7 +35,7 @@ function Post() {
 	}, []);
 
 	return (
-		<SubLayout>
+		<SubLayout name={'Community'}>
 			<p>포스트페이지 인트로화면입니다.</p>
 			<div className='inputBox'>
 				<form onSubmit={handleSubmit}>
